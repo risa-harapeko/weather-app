@@ -45,11 +45,36 @@ export function loadChecked(date: string): string[] {
   }
 }
 
-/** その日のチェック状態を保存する（保存できなくても画面の操作は続けられる） */
-export function saveChecked(date: string, ids: string[]): void {
+/**
+ * その日のチェック状態を保存し、ついでに today より前の日付のデータを削除する
+ * （保存できなくても画面の操作は続けられる）
+ */
+export function saveChecked(date: string, ids: string[], today: string): void {
   try {
     window.localStorage.setItem(STORAGE_PREFIX + date, JSON.stringify(ids));
   } catch {
     // プライベートモードなどで保存できないときは何もしない
+  }
+  removeOldEntries(today);
+}
+
+const DATE_PATTERN = /^\d{4}-\d{2}-\d{2}$/;
+
+/** today（"YYYY-MM-DD"）より前の日付のチェック状態を localStorage から消す */
+export function removeOldEntries(today: string): void {
+  try {
+    const storage = window.localStorage;
+    const oldKeys: string[] = [];
+    for (let i = 0; i < storage.length; i++) {
+      const key = storage.key(i);
+      if (!key?.startsWith(STORAGE_PREFIX)) continue;
+      const date = key.slice(STORAGE_PREFIX.length);
+      // "YYYY-MM-DD" は文字列比較で前後が分かる
+      if (DATE_PATTERN.test(date) && date < today) oldKeys.push(key);
+    }
+    // ループ中に消すと番号がずれるので、集めてからまとめて消す
+    for (const key of oldKeys) storage.removeItem(key);
+  } catch {
+    // localStorage が使えないときは何もしない
   }
 }

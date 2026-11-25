@@ -138,7 +138,7 @@ export default function WeatherApp() {
               onChange={setSelectedDate}
             />
             <DaySummary day={day} data={data} />
-            <OutingChecklist key={day.date} day={day} />
+            <OutingChecklist key={day.date} day={day} today={data.today} />
             <HourlyList hours={day.hours} />
           </>
         )

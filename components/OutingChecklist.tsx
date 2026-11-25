@@ -8,7 +8,14 @@ import { buildChecklist, loadChecked, saveChecked } from "@/lib/outing-checklist
  * お出かけ前チェックリスト。
  * 日付が変わったら作り直すように、呼び出し側で key={day.date} を付けること。
  */
-export default function OutingChecklist({ day }: { day: DayForecast }) {
+export default function OutingChecklist({
+  day,
+  today,
+}: {
+  day: DayForecast;
+  /** 現地の今日 "YYYY-MM-DD"。これより前の日付の保存データは消す */
+  today: string;
+}) {
   const items = buildChecklist(day);
   // 天気データは画面側で取得してから描画されるので、ここでは localStorage を直接読める
   const [checked, setChecked] = useState<string[]>(() => loadChecked(day.date));
@@ -18,7 +25,7 @@ export default function OutingChecklist({ day }: { day: DayForecast }) {
       ? checked.filter((c) => c !== id)
       : [...checked, id];
     setChecked(next);
-    saveChecked(day.date, next);
+    saveChecked(day.date, next, today);
   }
 
   const doneCount = items.filter((item) => checked.includes(item.id)).length;
