@@ -6,6 +6,7 @@ import SearchBar from "./SearchBar";
 import DateSelector from "./DateSelector";
 import DaySummary from "./DaySummary";
 import HourlyList from "./HourlyList";
+import OutingChecklist from "./OutingChecklist";
 import Spinner from "./Spinner";
 import ErrorMessage from "./ErrorMessage";
 
@@ -137,6 +138,7 @@ export default function WeatherApp() {
               onChange={setSelectedDate}
             />
             <DaySummary day={day} data={data} />
+            <OutingChecklist key={day.date} day={day} />
             <HourlyList hours={day.hours} />
           </>
         )
