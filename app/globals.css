@@ -24,3 +24,57 @@ body {
   font-size: 1rem;
   line-height: 1.6;
 }
+
+/* お迎え時間スライダー：つまみは指で動かしやすい 44px */
+.pickup-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  display: block;
+  width: 100%;
+  height: 44px;
+  margin: 0;
+  background: transparent;
+  cursor: pointer;
+}
+.pickup-slider:disabled {
+  cursor: default;
+}
+.pickup-slider::-webkit-slider-runnable-track {
+  height: 8px;
+  border-radius: 9999px;
+  background: #9ca3af;
+}
+.pickup-slider::-moz-range-track {
+  height: 8px;
+  border-radius: 9999px;
+  background: #9ca3af;
+}
+.pickup-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 44px;
+  height: 44px;
+  margin-top: -18px; /* (8px - 44px) / 2 でトラックの中央に置く */
+  border: 4px solid #fff;
+  border-radius: 9999px;
+  background: #1d4ed8;
+  box-shadow: 0 0 0 2px #1d4ed8;
+}
+.pickup-slider::-moz-range-thumb {
+  box-sizing: border-box;
+  width: 44px;
+  height: 44px;
+  border: 4px solid #fff;
+  border-radius: 9999px;
+  background: #1d4ed8;
+  box-shadow: 0 0 0 2px #1d4ed8;
+}
+.pickup-slider:focus-visible {
+  outline: none;
+}
+.pickup-slider:focus-visible::-webkit-slider-thumb {
+  box-shadow: 0 0 0 2px #1d4ed8, 0 0 0 6px #93c5fd;
+}
+.pickup-slider:focus-visible::-moz-range-thumb {
+  box-shadow: 0 0 0 2px #1d4ed8, 0 0 0 6px #93c5fd;
+}

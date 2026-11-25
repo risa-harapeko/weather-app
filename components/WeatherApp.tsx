@@ -8,6 +8,7 @@ import DaySummary from "./DaySummary";
 import HourlyList from "./HourlyList";
 import OutingChecklist from "./OutingChecklist";
 import OutingRanking from "./OutingRanking";
+import PickupSlider from "./PickupSlider";
 import Spinner from "./Spinner";
 import ErrorMessage from "./ErrorMessage";
 
@@ -149,6 +150,7 @@ export default function WeatherApp() {
             />
             <DaySummary day={day} data={data} />
             <OutingChecklist key={day.date} day={day} today={data.today} />
+            <PickupSlider hours={day.hours} date={day.date} />
             <OutingRanking
               days={data.days}
               selectedDate={day.date}
