@@ -7,6 +7,7 @@ import DateSelector from "./DateSelector";
 import DaySummary from "./DaySummary";
 import HourlyList from "./HourlyList";
 import OutingChecklist from "./OutingChecklist";
+import OutingRanking from "./OutingRanking";
 import Spinner from "./Spinner";
 import ErrorMessage from "./ErrorMessage";
 
@@ -112,6 +113,15 @@ export default function WeatherApp() {
     );
   }
 
+  /** ランキングで日を押したら、その日の予報に切り替えて天気表示まで戻る */
+  function selectFromRanking(date: string) {
+    setSelectedDate(date);
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    document
+      .querySelector('label[for="forecast-date"]')
+      ?.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "start" });
+  }
+
   const day = data?.days.find((d) => d.date === selectedDate) ?? data?.days[0];
   const lastDate = data?.days.at(-1)?.date ?? "";
 
@@ -139,6 +149,11 @@ export default function WeatherApp() {
             />
             <DaySummary day={day} data={data} />
             <OutingChecklist key={day.date} day={day} today={data.today} />
+            <OutingRanking
+              days={data.days}
+              selectedDate={day.date}
+              onSelect={selectFromRanking}
+            />
             <HourlyList hours={day.hours} />
           </>
         )
